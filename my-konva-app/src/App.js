@@ -169,23 +169,6 @@ function handleTypeId(type) {
   const handleDragEnd = (e) => {
     const id = e.target.id();
     console.log("DragEnd-id: " + id);
-    // let startType = null;
-    // if (id.startsWith('leftseat-')) {
-    //   startType = 'leftSeat';
-    // } else if (id.startsWith('rightseat-')) {
-    //   startType = 'rightSeat';
-    // } else if (id.startsWith('frontseat-')) {
-    //   startType = 'frontSeat';
-    // } else if (id.startsWith('backseat-')) {
-    //   startType = 'backSeat';
-    // } else if (id.startsWith('whiteboard-')) {
-    //   startType = 'whiteboard';
-    // } else if (id.startsWith('door-')) {
-    //   startType = 'door';
-    // } else if (id.startsWith('window-')) {
-    //   startType = 'window';
-    // }
-    // const componentId = parseInt(id.replace(`${startType}-`, ''), 10); //replace(需要變更的字串,準備變更的字串)然後後面的10是指定進制
     const newComponents = components.map(component => {
       if (component.id === id) {
         return {
@@ -225,10 +208,6 @@ function handleTypeId(type) {
     setComponents(components.filter(components => components.id !== id));
     setSelectedComponentId(null); // 清除選取的座位ID
   };
-  
-  const continuousAlignSeat = () => {
-
-  }
 
   const handleExportImg = () => {
     const stage = stageRef.current.getStage().content;
@@ -240,49 +219,40 @@ function handleTypeId(type) {
     });
   };
 
-  const handleSaveJSON = () => {
-    const data = {
+  const handleSaveDb = () => {
+    if(RID===0){
+      Swal.fire({
+        title: `請輸入教室號碼在進行儲存`,
+        icon: 'warning',  
+      })
+    }else{
+      const data = {
         ComponentsArray: components,
-    };
-    console.log(data.ComponentsArray);
-    const dataStr = JSON.stringify(data);
-    localStorage.setItem("data", dataStr);
-    console.log("Data saved to localStorage");
-    console.log(dataStr);
-    $.ajax({
-        url: 'http://localhost:7080/party/konva/src/storeInPhp.php',
-        type: 'POST',
-        contentType: 'application/json', 
-        data: JSON.stringify({ ComponentsArray: data.ComponentsArray }), 
-        success: function (response) {
-            console.log("Data transmitted to database.");
-            console.log(response); 
-        },
-        error: function (error) {
-            console.log("Error: ", error);
-        },
-    });
-};
-
-// //使用localstorage儲存的方法，先註解使用資料庫載入
-const handleLoadJSON = () => {
-    console.log("click the load button");
-      const json = localStorage.getItem("data");
-      if (!json) {
-        console.error("No data found in localStorage");
-        return;
-      }
-    try {
-      const data = JSON.parse(json);
-      if (data.ComponentsArray) {
-        setComponents(data.ComponentsArray);
-        console.log("Data loaded successfully from localStorage");
-      } 
-    } catch (error) {
-      console.error("Error parsing JSON from localStorage", error);
+      };
+      console.log(data.ComponentsArray);
+      const dataStr = JSON.stringify(data);
+      localStorage.setItem("data", dataStr);
+      console.log("Data saved to localStorage");
+      console.log(dataStr);
+      $.ajax({
+          url: 'http://localhost:7080/party/konva/src/storeInPhp.php',
+          type: 'POST',
+          contentType: 'application/json', 
+          data: JSON.stringify({ ComponentsArray: data.ComponentsArray }), 
+          success: function (response) {
+              console.log("Data transmitted to database.");
+              console.log(response); 
+              Swal.fire({
+                title: `資料已成功儲存至`+RID+`教室`,
+                showCancelButton: true,
+              })
+          },
+          error: function (error) {
+              console.log("Error: ", error);
+          },
+      });
     }
-  };
-
+};
 
 const handleLoadFromDb = () => {
   Swal.fire({
@@ -294,6 +264,7 @@ const handleLoadFromDb = () => {
     confirmButtonText: '載入座位表',
     cancelButtonText: '取消',
     inputValidator: (value) => {
+      setRID(value)
       if (!value) {
         return '請輸入教室號碼';
       }
@@ -311,6 +282,10 @@ const handleLoadFromDb = () => {
           });
           if (!response.ok) {
             throw new Error('Network response was not ok');
+            Swal.fire({
+              title: `網路出現錯誤`,
+              icon: 'warning',  
+            })
           }
           const data = await response.json();
           console.log("This is data: ")
@@ -329,6 +304,10 @@ const handleLoadFromDb = () => {
           setComponents(data);
         } catch (error) {
           console.error("Error fetching data from db:", error);
+          Swal.fire({
+            title: `未有${RID}教室座位表`,
+            icon: 'warning',  
+          })
         }
       })();
     }
@@ -508,7 +487,7 @@ const handleLoadFromDb = () => {
           <a href="#" className="navbar-brand text-light">SmartSeating 座位管理系统</a>
           <ul className="navbar-nav d-flex flex-row align-items-center">
             <li className="nav-item">
-              <button onClick={handleSaveJSON} className="btn btn-dark">
+              <button onClick={handleSaveDb} className="btn btn-dark">
                 <i className="bi bi-download"></i>
               </button>
             </li>
@@ -834,7 +813,6 @@ const handleLoadFromDb = () => {
                     className="form-control"
                     onChange={handleInputChange} 
                     onKeyDown={handleKeyPress}
-                    placeholder={RID}
                     style={{ width: '150px' }}
                   />
                 </form>

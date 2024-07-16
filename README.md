@@ -8,4 +8,4 @@ Independent project during college～
 
 Currently under continuous development, please contact me if you need to use it.
 
-All copy right belongs to @MingFaTW.
+All copyright belongs to @MingFaTW.

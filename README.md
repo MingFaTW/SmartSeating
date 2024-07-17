@@ -9,18 +9,15 @@ Currently under continuous development, please contact me if you need to use it.
 All copyright belongs to @MingFaTW.
 
 
-<img width="1440" alt="截圖 2024-07-17 晚上9 32 09" src="https://github.com/user-attachments/assets/c1776cdc-1f4a-475b-9d20-21d3eea4c1e5">
+<img width="1433" alt="截圖 2024-07-18 凌晨1 43 31" src="https://github.com/user-attachments/assets/d0bebaec-0a46-402b-97a0-8ba2a0a1ead3">
 
+SeatChart Mode
+<img width="1440" alt="截圖 2024-07-18 凌晨1 42 47" src="https://github.com/user-attachments/assets/1fcf2416-6988-48ac-9d27-c5a6ae615d72">
 
-<img width="1440" alt="截圖 2024-07-17 凌晨12 53 26" src="https://github.com/user-attachments/assets/7534c8eb-5569-43c4-b402-f9ccfcdea14a">
+Proctoring Mode.
+![screenshot (14)](https://github.com/user-attachments/assets/19dec575-1c19-443b-80e0-3b482e154c30)
 
-<img width="1436" alt="截圖 2024-07-17 凌晨1 20 30" src="https://github.com/user-attachments/assets/2969d8cd-c718-4091-8463-18e2bb773cb8">
-
-<img width="1440" alt="截圖 2024-07-17 凌晨1 22 17" src="https://github.com/user-attachments/assets/b7825aa6-899e-4d47-acfd-53bf699d4db8">
-
-<img width="1440" alt="截圖 2024-07-17 晚上10 21 29" src="https://github.com/user-attachments/assets/17bc0332-7368-40df-ae82-e88e75dd5af7">
-
-<img width="1440" alt="截圖 2024-07-17 晚上10 21 57" src="https://github.com/user-attachments/assets/9b6d218f-1434-40fe-aca4-c4b737e600ab">
-
+The picture download by project.
+![screenshot (14)](https://github.com/user-attachments/assets/fa106420-79e6-4682-be4c-04d493750048)
 
 

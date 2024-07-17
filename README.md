@@ -8,8 +8,19 @@ Currently under continuous development, please contact me if you need to use it.
 
 All copyright belongs to @MingFaTW.
 
+
+<img width="1440" alt="截圖 2024-07-17 晚上9 32 09" src="https://github.com/user-attachments/assets/c1776cdc-1f4a-475b-9d20-21d3eea4c1e5">
+
+
 <img width="1440" alt="截圖 2024-07-17 凌晨12 53 26" src="https://github.com/user-attachments/assets/7534c8eb-5569-43c4-b402-f9ccfcdea14a">
 
 <img width="1436" alt="截圖 2024-07-17 凌晨1 20 30" src="https://github.com/user-attachments/assets/2969d8cd-c718-4091-8463-18e2bb773cb8">
 
 <img width="1440" alt="截圖 2024-07-17 凌晨1 22 17" src="https://github.com/user-attachments/assets/b7825aa6-899e-4d47-acfd-53bf699d4db8">
+
+<img width="1440" alt="截圖 2024-07-17 晚上10 21 29" src="https://github.com/user-attachments/assets/17bc0332-7368-40df-ae82-e88e75dd5af7">
+
+<img width="1440" alt="截圖 2024-07-17 晚上10 21 57" src="https://github.com/user-attachments/assets/9b6d218f-1434-40fe-aca4-c4b737e600ab">
+
+
+

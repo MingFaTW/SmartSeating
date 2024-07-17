@@ -1,6 +1,6 @@
-import React, { useEffect } from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import SeatChart from './components/SeatChart';
+import Invigilation from './components/Invigilation';
 import HomePage from './components/HomePage';
 
 const App = () => {
@@ -16,6 +16,7 @@ const App = () => {
       <Router>
         <Routes>
             <Route path="/seat-chart" element={<SeatChart />} />
+            <Route path="/Invigilation" element={<Invigilation />} />
             <Route path="/home-page" element={<HomePage />} />
         </Routes>
       </Router>

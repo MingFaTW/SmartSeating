@@ -17,7 +17,7 @@ const HomePage = () => {
                 if (value === 'seatChart') {
                   window.location.href = 'http://localhost:3000/seat-chart';
                 } else if (value === 'Invigilation') {
-                  resolve('已選擇監考模式');
+                  window.location.href = 'http://localhost:3000/invigilation';
                 } else {
                   resolve('請選擇一個模式');
                 }

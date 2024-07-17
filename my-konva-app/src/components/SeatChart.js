@@ -8,25 +8,12 @@ import 'bootstrap-icons/font/bootstrap-icons.css';
 import Swal from 'sweetalert2';
 const SeatChart = () => {
   // id: 座位編號 type: 型態 componentsId: 型態專用編號 x: x座標 y: y座標 SeatId: 座號 studentName: 學生姓名 studentId: 學生學號 MacAddress: Mac地址
-  const [components, setComponents] = useState([
-    // { id:1, type: 'leftSeat', typeId: 1, x: 50, y: 50, RID:1008 ,seatId: "1", studentName: '李明發', studentId: 'CBB110213', macAddress: '1A-2B-3C-4D-5E-6F', status: 0},
-    // { id:2, type: 'rightSeat', componentsId: 2, x: 50, y: 100, SeatId: '2', studentName: '李明發', studentId: 'CBB110213', MacAddress: '1A-2B-3C-4D-5E-6F'},
-    // { id:3, type: 'frontSeat', componentsId: 3, x: 50, y: 150, SeatId: '3', studentName: '李明發', studentId: 'CBB110213', MacAddress: '1A-2B-3C-4D-5E-6F'},
-    // { id:4, type: 'backSeat', componentsId: 4, x: 50, y: 200, SeatId: '4', studentName: '李明發', studentId: 'CBB110213', MacAddress: '1A-2B-3C-4D-5E-6F'},
-    // { id:5, type: 'whiteboard', componentsId: 5, x: 50, y: 250, SeatId: '', studentName: '', studentId: '', MacAddress: ''},
-    // { id:6, type: 'door', componentsId: 6, x: 50, y: 300, SeatId: '', studentName: '', studentId: '', MacAddress: ''},
-    // { id:7, type: 'window', componentsId: 7, x: 50, y: 350, SeatId: '', studentName: '', studentId: '', MacAddress: ''},
-    //共有上述7種型態 1.左座位 2.右座位 3.前座位 4.後座位 5.白板 6.門 7.窗 數字對應型態專用編號
-    //status: 0:idle,1:occupy,-1:disabled
-  ])
+  const [components, setComponents] = useState([]);
   //對了由於id是設成由2開始的，要進行驗證，如果要開始用的話把id設成1(nextIdRef)
   const [RID, setRID] = useState(0);
   const [status, setStatus] = useState(0);
   const [disabledSeats, setDisabledSeats] = useState([]);
   const [selectedComponentId, setSelectedComponentId] = useState(null);
-  const [inputStudentId, setInputStudentId] = useState('');
-  const [inputStudentName, setInputStudentName] = useState('');
-  const [inputMacAddress, setInputMacAddress] = useState('');
   const [inputSeatOrientation, setInputSeatOrientation] = useState("");
   const [stagePosition, setStagePosition] = useState({ x: 0, y: 0 });
   const [isDragging, setIsDragging] = useState(false);
@@ -119,13 +106,16 @@ function handleTypeId(type) {
 
   //selectedSeatType 現在用做是之前新增的選項，當選擇了leftSeat、rightSeat、frontSeat、backSeat時，輸入座位數量，並且新增相應數量的座位。
   const handleStageClick = (e) => {
+    
     if (e.target === stageRef.current.getStage()) {
       setSelectedComponentId(null);
       const stage = stageRef.current.getStage();
       const pointerPosition = stage.getPointerPosition();
       if (continuousAddSeat === "active") {
         if (['leftSeat', 'rightSeat', 'frontSeat', 'backSeat'].includes(selectedSeatType)) {
+          console.log("usethecontinuousAddSeat");
           const newComponentsArray = [];
+          console.log("seatCount",seatCount);
           for (let i = 0; i < seatCount; i++) {
             let x = pointerPosition.x;
             let y = pointerPosition.y;
@@ -204,10 +194,29 @@ function handleTypeId(type) {
       setComponents(newComponents);
     }
   };
-
   const handleDeleteObject = (id) => {
-    setComponents(components.filter(components => components.id !== id));
-    setSelectedComponentId(null); // 清除選取的座位ID
+    const selectedComponent = components.find(component => component.id === selectedComponentId);
+    if((selectedComponent.typeId === 5)||(selectedComponent.typeId === 6)||(selectedComponent.typeId === 7)){
+      const updatedComponents = components.filter(component => component.id !== id);
+      setComponents(updatedComponents);
+      setSelectedComponentId(null);
+    }else{
+      console.log("nextSeatId",nextSeatIdRef.current-1);
+      console.log("selectedComponent.seatId",selectedComponent.seatId);
+      if(parseInt(selectedComponent.seatId) === parseInt(nextSeatIdRef.current - 1)){
+        console.log("Delete seat");
+        const updatedComponents = components.filter(selectedComponent => selectedComponent.id !== id);
+        setComponents(updatedComponents);
+        nextSeatIdRef.current -= 1;
+        nextIdRef.current -= 1;
+        setSelectedComponentId(null);
+      }else{
+        Swal.fire({
+          title: `請先刪除${nextSeatIdRef.current - 1}座位`,
+          icon: 'warning',
+        });
+      }
+   };
   };
 
   const handleExportImg = () => {
@@ -316,7 +325,6 @@ const handleLoadFromDb = () => {
 };
 
 
-
   const handleDeleteDataSheet = async () => {
     if (RID !== 0) {
       Swal.fire({
@@ -361,25 +369,14 @@ const handleLoadFromDb = () => {
     if (name === "classRoomId" && value.trim() === "") {
       alert("請輸入教室號碼");
       return; 
-    }
-    if (name === 'studentId') {
-      setInputStudentId(value);
-    } else if (name === 'studentName') {
-      setInputStudentName(value);
-    } else if (name === 'macAddress') {
-      setInputMacAddress(value);
-    } else if (name === 'Width') {
-      setStageWidth(value);
-    } else if (name === 'Height') {
-      setStageHeight(value);
-    } else if (name === 'mutiSeatSelected') {
-      setSeatCount(value);
     } else if (name === 'seatOrientation') {
       setInputSeatOrientation(value);
     } else if (name === "classRoomId") {
       setRID(value);
       const newComponents = handleAssignRID(components, value);
       setComponents(newComponents);
+    }else if (name === 'mutiSeatSelected') {
+      setSeatCount(value);
     }
   };
 
@@ -396,9 +393,6 @@ const handleLoadFromDb = () => {
         if (component.id === selectedComponentId) {
           return {
             ...component,
-            studentId: inputStudentId,
-            studentName: inputStudentName,
-            macAddress: inputMacAddress,
             type: inputSeatOrientation,
             status: 1,
           };
@@ -439,20 +433,11 @@ const handleLoadFromDb = () => {
     if(selectedComponentId !== null){
       const selectedComponent = components.find(components => components.id === selectedComponentId);
       if(selectedComponent){
-        setInputStudentId(selectedComponent.studentId);
-        setInputStudentName(selectedComponent.studentName);
-        setInputMacAddress(selectedComponent.macAddress);
-        setInputSeatOrientation(selectedComponent.type);
         // 遍歷 components 以找出所有 studentName 為 "電腦故障" 的組件
         const updatedDisabledSeats = components.filter(component => component.studentName === "電腦故障");
         // 使用找到的組件更新 disabledSeats 狀態
         setDisabledSeats(updatedDisabledSeats);
       }
-    }else{
-      setInputStudentId('');
-      setInputStudentName('');
-      setInputMacAddress('');
-      setInputSeatOrientation("");
     }
   }, [selectedComponentId, components]);
 
@@ -812,14 +797,10 @@ const handleLoadFromDb = () => {
                     className="form-control"
                     onChange={handleInputChange} 
                     onKeyDown={handleKeyPress}
-                    style={{ width: '150px' }}
                   />
                 </form>
-                <button onClick={handleDeleteDataSheet} className="btn btn-primary">
-                   刪除
-                </button>
               </div>
-              <form> 
+              <form>
               <div>
                   <label>啟用連續新增座位：</label>
                   <select id='seatAddingOption' value={continuousAddSeat} onChange={handleContiunuousAddSeat}>
@@ -832,18 +813,18 @@ const handleLoadFromDb = () => {
                   </select>
               </div>
                 <div>
-                  <label>
-                    新增座位數量:
-                  </label>
-                  <input type="text"
-                        className="form-control"
-                        name="mutiSeatSelected"
-                        id="addNewSeatNum"
-                        onChange={handleInputChange}
-                        onKeyDown={handleKeyPress}
-                        // 主要是因為input位於form內，所以按下Enter時會觸發form的submit，所以要阻止enter。
-                    />
-                </div>
+                    <label>
+                      新增座位數量:
+                    </label>
+                    <input type="text"
+                          className="form-control"
+                          name="mutiSeatSelected"
+                          id="addNewSeatNum"
+                          onChange={handleInputChange}
+                          onKeyDown={handleKeyPress}
+                          // 主要是因為input位於form內，所以按下Enter時會觸發form的submit，所以要阻止enter。
+                      />
+                  </div>
               <div>
                 <input type="radio"
                       name="mutiSeatSelected"
@@ -876,68 +857,48 @@ const handleLoadFromDb = () => {
                 />
                 <label htmlFor="selectedBackSeat">後座位</label>
               </div>
+              </form>
               <div>
                 <label>可用座位/座位總數 : {(nextSeatIdRef.current-1)-(disabledSeats.length)}/{(nextSeatIdRef.current-1)}</label>
               </div>
-              </form>
-                <label>學生學號</label>
-                <input
-                  type="text"
-                  className="form-control"
-                  name="studentId"
-                  value={inputStudentId}
-                  onChange={handleInputChange}
-                />
-              </div>
-              <div>
-                <label>學生姓名</label>
-                <input
-                  type="text"
-                  className="form-control"
-                  name="studentName"
-                  value={inputStudentName}
-                  onChange={handleInputChange}
-                />
-              </div>
-              <div>
-                <label>Mac Address</label>
-                <input
-                  type="text"
-                  className="form-control"
-                  name="macAddress"
-                  value={inputMacAddress}
-                  onChange={handleInputChange}
-                />
               </div>
               <div className="form-group mb-3">
                 <label>座位方向</label>
-                <select
-                  className="form-control"
-                  name="seatOrientation"
-                  value={inputSeatOrientation}
-                  onChange={handleInputChange}
-                >
-                  <option value="" onChange={handleInputChange}>請選擇</option>
-                  <option value="leftSeat" onChange={handleInputChange}>向左</option>
-                  <option value="rightSeat" onChange={handleInputChange}>向右</option>
-                  <option value="frontSeat" onChange={handleInputChange}>向後</option>
-                  <option value="backSeat" onChange={handleInputChange}>向前</option>
-                </select>
+                <div style={{ display: 'flex', alignItems: 'center' }}>
+                  <select
+                    className="form-control"
+                    name="seatOrientation"
+                    value={inputSeatOrientation}
+                    onChange={handleInputChange}
+                    style={{width:'160px'}}
+                  >
+                    <option value="" onChange={handleInputChange}>請選擇</option>
+                    <option value="leftSeat" onChange={handleInputChange}>向左</option>
+                    <option value="rightSeat" onChange={handleInputChange}>向右</option>
+                    <option value="frontSeat" onChange={handleInputChange}>向後</option>
+                    <option value="backSeat" onChange={handleInputChange}>向前</option>
+                  </select>
+                  <button onClick={handleAssignSeat} className="btn btn-primary">
+                    確認
+                  </button>
+                </div>
+                <br/>
+                <div>
+                  <label>座位故障/刪除</label>
+                  <div>
+                    <button onClick={handleDisableSeat} className="btn btn-primary">
+                      電腦故障
+                    </button>
+                    <button 
+                      onClick={() => handleDeleteObject(selectedComponentId)} 
+                      className="btn btn-primary"
+                      disabled={!selectedComponentId} // 當未選擇座位或形狀時禁用按鈕
+                    >
+                      刪除
+                    </button>
+                  </div>
+                </div>
               </div>
-              <button onClick={handleAssignSeat} className="btn btn-primary">
-                資訊填入
-              </button>
-              <button 
-                onClick={() => handleDeleteObject(selectedComponentId)} 
-                className="btn btn-primary"
-                disabled={!selectedComponentId} // 當未選擇座位或形狀時禁用按鈕
-              >
-                刪除
-              </button>
-              
-              <button onClick={handleDisableSeat} className="btn btn-primary">
-                電腦故障
-              </button>
               <div>
                 <div>
                   <label>教室寬度:</label>                

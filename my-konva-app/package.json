@@ -13,7 +13,9 @@
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-konva": "^18.2.10",
+    "react-router-dom": "^6.25.0",
     "react-scripts": "5.0.1",
+    "react-switch": "^7.0.0",
     "sweetalert2": "^11.12.2",
     "use-image": "^1.1.1",
     "web-vitals": "^2.1.4"

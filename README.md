@@ -16,7 +16,7 @@ Terminal: ```npm run dev``` to start the project.
 
 In the future, i would like to build a docker image for this one, if i still developing it. :)
 
-All copyright belongs to @MingFaTW. :)~~~~~(HI) A man needs a ? for happy life.
+All copyright belongs to @MingFaTW. :)~~~~~(HI) A man needs some money for the student life.
 
 The pictures for this project functions~
 

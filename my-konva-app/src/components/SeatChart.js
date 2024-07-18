@@ -9,7 +9,9 @@ import Swal from 'sweetalert2';
 const SeatChart = () => {
   // id: 座位編號 type: 型態 componentsId: 型態專用編號 x: x座標 y: y座標 SeatId: 座號 studentName: 學生姓名 studentId: 學生學號 MacAddress: Mac地址
   const [components, setComponents] = useState([]);
-  //對了由於id是設成由2開始的，要進行驗證，如果要開始用的話把id設成1(nextIdRef)
+  const [Width, setWidth] = useState(1200); //設定教室寬度
+  const [Height, setheight] = useState(1000); //設定教室高度
+  const [seatNum, setSeatNum] = useState(0); //該座位表座位的總數
   const [RID, setRID] = useState(0);
   const [status, setStatus] = useState(0);
   const [disabledSeats, setDisabledSeats] = useState([]);
@@ -18,15 +20,8 @@ const SeatChart = () => {
   const [stagePosition, setStagePosition] = useState({ x: 0, y: 0 });
   const [isDragging, setIsDragging] = useState(false);
   const [stageDraggable, setStageDraggable] = useState(true);
-  // 新增連續放置座位和形狀的模式
-  const [selectedOption, setSelectedOption] = useState("");
-  // const [selectedShape, setSelectedShape] = useState("");
-  const [seatCount, setSeatCount] = useState(0);
-  const [selectedSeatType, setSelectedSeatType] = useState("");
-
-
-  const [stageWidth, setStageWidth] = useState(1200);
-  const [stageHeight, setStageHeight] = useState(1000);
+  const [selectedSeatType, setSelectedSeatType] = useState("");//新增連續放置座位和形狀的模式
+  const [seatCount, setSeatCount] = useState(0); //seatCount主要是用於計算連續新增座位的數量
   const stageRef = useRef(null);
   const nextSeatIdRef = useRef(1);
   const nextIdRef = useRef(1); //useRef是React的Hook，用於在React組件的整個生命週期中保存數值。
@@ -71,10 +66,11 @@ function handleTypeId(type) {
       macAddress: '',
       status: 0,
     };
-  
+    
     // 根據條件設定 SeatId，像下面的三元運算式
     // newIdRef是一個(ref)物件，通常於React中用於存取DOM node或是儲存可變的值而不會引起組件重新渲染/或是說ref儲存的數值在組件在重新渲染的過程中保持不變，除非自己改它。
     // newIdRef.current的主要作用是用來存放新的座位或形狀或是更新現有的值，...newComponent為將ref物件中的所有屬性複製到新物件中。
+    setSeatNum((type === 'leftSeat' || type === 'rightSeat' || type === 'frontSeat' || type === 'backSeat') ? nextSeatIdRef.current : seatNum);
     newIdRef.current = {
       ...newComponents,
       seatId: (type === 'leftSeat' || type === 'rightSeat' || type === 'frontSeat' || type === 'backSeat') ? `${nextSeatIdRef.current++}` : 0
@@ -106,7 +102,6 @@ function handleTypeId(type) {
 
   //selectedSeatType 現在用做是之前新增的選項，當選擇了leftSeat、rightSeat、frontSeat、backSeat時，輸入座位數量，並且新增相應數量的座位。
   const handleStageClick = (e) => {
-    
     if (e.target === stageRef.current.getStage()) {
       setSelectedComponentId(null);
       const stage = stageRef.current.getStage();
@@ -237,6 +232,9 @@ function handleTypeId(type) {
       })
     }else{
       const data = {
+        Width: Width,
+        Height: Height,
+        seatNum: seatNum,
         ComponentsArray: components,
       };
       console.log(data.ComponentsArray);
@@ -325,44 +323,44 @@ const handleLoadFromDb = () => {
 };
 
 
-  const handleDeleteDataSheet = async () => {
-    if (RID !== 0) {
-      Swal.fire({
-        title: `請問是否刪除${RID}教室的資料表`,
-        text: "一旦刪除，現存的資料和已規劃之座位表，將全部淨空無法恢復！",
-        icon: 'warning', 
-        showCancelButton: true, 
-        confirmButtonColor: '#3085d6', 
-        cancelButtonColor: '#d33', 
-        confirmButtonText: "確認刪除", 
-        cancelButtonText: "取消刪除", 
-      }).then(async (result) => {
-        if (result.isConfirmed) {
-          setComponents([]);
-          nextIdRef.current = 1;
-          nextSeatIdRef.current = 1;
-          try {
-            const formData = new FormData();
-            formData.append('RID', RID);
-            const response = await fetch("http://localhost:7080/party/konva/src/deleteDataSheet.php", {
-              method: 'POST',
-              body: formData,
-            });
-            if (response.ok) {
-              console.log('座位表已成功刪除');
-              // 可以在這裡添加更多的UI反饋，例如刷新頁面或更新UI元素
-            } else {
-              console.error('刪除座位表失敗');
-            }
-          } catch (error) {
-            console.error('刪除座位表時發生錯誤', error);
-          }
-        }
-      });
-    } else {
-      console.log('無效的RID，無法刪除座位表');
-    }
-  };
+  // const handleDeleteDataSheet = async () => {
+  //   if (RID !== 0) {
+  //     Swal.fire({
+  //       title: `請問是否刪除${RID}教室的資料表`,
+  //       text: "一旦刪除，現存的資料和已規劃之座位表，將全部淨空無法恢復！",
+  //       icon: 'warning', 
+  //       showCancelButton: true, 
+  //       confirmButtonColor: '#3085d6', 
+  //       cancelButtonColor: '#d33', 
+  //       confirmButtonText: "確認刪除", 
+  //       cancelButtonText: "取消刪除", 
+  //     }).then(async (result) => {
+  //       if (result.isConfirmed) {
+  //         setComponents([]);
+  //         nextIdRef.current = 1;
+  //         nextSeatIdRef.current = 1;
+  //         try {
+  //           const formData = new FormData();
+  //           formData.append('RID', RID);
+  //           const response = await fetch("http://localhost:7080/party/konva/src/deleteDataSheet.php", {
+  //             method: 'POST',
+  //             body: formData,
+  //           });
+  //           if (response.ok) {
+  //             console.log('座位表已成功刪除');
+  //             // 可以在這裡添加更多的UI反饋，例如刷新頁面或更新UI元素
+  //           } else {
+  //             console.error('刪除座位表失敗');
+  //           }
+  //         } catch (error) {
+  //           console.error('刪除座位表時發生錯誤', error);
+  //         }
+  //       }
+  //     });
+  //   } else {
+  //     console.log('無效的RID，無法刪除座位表');
+  //   }
+  // };
   
   const handleInputChange = (event) => {
     const { name, value } = event.target;
@@ -430,6 +428,8 @@ const handleLoadFromDb = () => {
   };
 
   useEffect(() => {
+    setSeatNum(nextSeatIdRef.current-1);
+    setRID(RID);
     if(selectedComponentId !== null){
       const selectedComponent = components.find(components => components.id === selectedComponentId);
       if(selectedComponent){
@@ -554,8 +554,8 @@ const handleLoadFromDb = () => {
           >
             <Stage 
               ref={stageRef}
-              width={stageWidth}
-              height={stageHeight}
+              width={Width}
+              height={Height}
               //draggable={stageDraggable}
               x={stagePosition.x}
               y={stagePosition.y}
@@ -797,6 +797,7 @@ const handleLoadFromDb = () => {
                     className="form-control"
                     onChange={handleInputChange} 
                     onKeyDown={handleKeyPress}
+                    value={RID}
                   />
                 </form>
               </div>
@@ -859,7 +860,7 @@ const handleLoadFromDb = () => {
               </div>
               </form>
               <div>
-                <label>可用座位/座位總數 : {(nextSeatIdRef.current-1)-(disabledSeats.length)}/{(nextSeatIdRef.current-1)}</label>
+                <label>可用座位/座位總數 : {(seatNum)-(disabledSeats.length)}/{(seatNum)}</label>
               </div>
               </div>
               <div className="form-group mb-3">
@@ -904,7 +905,7 @@ const handleLoadFromDb = () => {
                   <label>教室寬度:</label>                
                   <input
                     name = "Width"
-                    value={stageWidth}
+                    value={Height}
                     onChange={handleInputChange}
                     style={{width: '150px'}}
                   />
@@ -913,7 +914,7 @@ const handleLoadFromDb = () => {
                 <label>教室高度:</label>       
                   <input
                     name = "Height"
-                    value={stageHeight}
+                    value={Width}
                     onChange={handleInputChange}
                     style={{width: '150px'}}
                   />

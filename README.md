@@ -10,6 +10,8 @@ Environment: phpmyadmin/ node.js
 
 Currently under continuous development, please contact me if you need to use it.
 
+Terminal: ```npm run dev``` to start the project.
+
 In the future, i would like to build a docker image for this one, if i still developing it. :)
 
 All copyright belongs to @MingFaTW. :)~~~~~(HI) A man needs a ? for happy life.

@@ -260,7 +260,7 @@ const handleLoadFromDb = () => {
     });
   };
   const handleAssignSeat = () => {
-    if(inputSeatOrientation !== 'whiteboard' || inputSeatOrientation !== 'door' || inputSeatOrientation !== 'window'){
+    if(inputSeatOrientation !== 'whiteBoard' || inputSeatOrientation !== 'door' || inputSeatOrientation !== 'window'){
       const updatedComponents = components.map(component => {
         console.log('updatedComponents', component.id, selectedComponentId);
         if (component.id === selectedComponentId) {
@@ -561,7 +561,7 @@ const handleLoadFromDb = () => {
                       />
                     </>
                   )}
-                  {component.type === 'whiteboard' && (
+                  {component.type === 'whiteBoard' && (
                     <>
                       <Rect width={200} height={50} fill="white" stroke="black" strokeWidth={2} />
                       <Text text={`白板`} fontSize={12} fill="black" x={80} y={20} />

@@ -37,11 +37,11 @@ const SeatChart = () => {
 // 將 handleTypeId 函數獨立出來，以便重用
 function handleTypeId(type) {
   switch (type.toLowerCase()) { // 使用 toLowerCase 確保大小寫不敏感
-    case 'leftseat': return 1;
-    case 'rightseat': return 2;
-    case 'frontseat': return 3;
-    case 'backseat': return 4;
-    case 'whiteboard': return 5;
+    case 'leftSeat': return 1;
+    case 'rightSeat': return 2;
+    case 'frontSeat': return 3;
+    case 'backSeat': return 4;
+    case 'whiteBoard': return 5;
     case 'door': return 6;
     case 'window': return 7;
     default: return 0;
@@ -309,6 +309,7 @@ const handleLoadFromDb = () => {
           }
           nextIdRef.current = parseInt(newId)+1;
           nextSeatIdRef.current = parseInt(newNextSeatId)+1;
+          console.log(data);
           setComponents(data);
         } catch (error) {
           console.error("Error fetching data from db:", error);
@@ -385,7 +386,7 @@ const handleLoadFromDb = () => {
   };
 
   const handleAssignSeat = () => {
-    if(inputSeatOrientation !== 'whiteboard' || inputSeatOrientation !== 'door' || inputSeatOrientation !== 'window'){
+    if(inputSeatOrientation !== 'whiteBoard' || inputSeatOrientation !== 'door' || inputSeatOrientation !== 'window'){
       const updatedComponents = components.map(component => {
         console.log('updatedComponents', component.id, selectedComponentId);
         if (component.id === selectedComponentId) {
@@ -522,7 +523,7 @@ const handleLoadFromDb = () => {
           </div>
           <div
             draggable
-            onDragStart={() => handleDragStart('whiteboard')}
+            onDragStart={() => handleDragStart('whiteBoard')}
             style={{width: '50px',height: '50px', backgroundColor: 'grey', margin: '5px'}}
           >
             白板
@@ -746,7 +747,7 @@ const handleLoadFromDb = () => {
                       />
                     </>
                   )}
-                  {component.type === 'whiteboard' && (
+                  {component.type === 'whiteBoard' && (
                     <>
                       <Rect width={200} height={50} fill="white" stroke="black" strokeWidth={2} />
                       <Text text={`白板`} fontSize={12} fill="black" x={80} y={20} />

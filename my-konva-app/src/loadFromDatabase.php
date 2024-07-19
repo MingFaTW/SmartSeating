@@ -19,8 +19,8 @@ if ($conn->connect_error) {
 mysqli_set_charset($conn, "utf8mb4");
 
 // 從POST請求中獲取RID
-$RID = isset($_POST['RID']) ? $_POST['RID'] : '';
-// $RID = 1008;
+// $RID = isset($_POST['RID']) ? $_POST['RID'] : '';
+$RID = 1008;
 $RID = $conn->real_escape_string($RID);
 $stmt = $conn->prepare(
     "SELECT 

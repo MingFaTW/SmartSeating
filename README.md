@@ -27,10 +27,11 @@ SeatChart Mode
 <img width="1440" alt="截圖 2024-07-18 凌晨1 42 47" src="https://github.com/user-attachments/assets/1fcf2416-6988-48ac-9d27-c5a6ae615d72">
 
 Proctoring Mode.
-<img width="1435" alt="截圖 2024-07-18 凌晨1 41 39" src="https://github.com/user-attachments/assets/a1cfa323-91a4-457f-9e82-e88034be63b8">
+<img width="1440" alt="截圖 2024-07-22 下午4 24 52" src="https://github.com/user-attachments/assets/1c5890ad-b207-4bbd-838f-b2f64963c80f">
 
 The picture download by project.
 ![screenshot (14)](https://github.com/user-attachments/assets/fa106420-79e6-4682-be4c-04d493750048)
+<img width="1440" alt="截圖 2024-07-22 下午2 31 23" src="https://github.com/user-attachments/assets/79b1b80f-924d-4836-b2ee-21cea5a69f4d">
 
 The saving and loading functional pictures.
 <img width="1436" alt="截圖 2024-07-18 凌晨1 41 47" src="https://github.com/user-attachments/assets/a61da534-1274-4a04-89c9-67d8722e6419">

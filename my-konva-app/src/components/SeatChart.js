@@ -9,6 +9,7 @@ import Swal from 'sweetalert2';
 const SeatChart = () => {
   // id: 座位編號 type: 型態 componentsId: 型態專用編號 x: x座標 y: y座標 SeatId: 座號 studentName: 學生姓名 studentId: 學生學號 MacAddress: Mac地址
   const [components, setComponents] = useState([]);
+  const [typeId, setTypeId] = useState(0);
   const [Width, setWidth] = useState(1200); //設定教室寬度
   const [Height, setheight] = useState(1000); //設定教室高度
   const [seatNum, setSeatNum] = useState(0); //該座位表座位的總數
@@ -36,7 +37,7 @@ const SeatChart = () => {
 
 // 將 handleTypeId 函數獨立出來，以便重用
 function handleTypeId(type) {
-  switch (type.toLowerCase()) { // 使用 toLowerCase 確保大小寫不敏感
+  switch (type) { 
     case 'leftSeat': return 1;
     case 'rightSeat': return 2;
     case 'frontSeat': return 3;
@@ -93,7 +94,7 @@ function handleTypeId(type) {
 
   const handleSelectedSeatTypeChange = (e) => {
     setSelectedSeatType(e.target.value);
-  }  
+  }
 
   const handleComponentClick = (e, id) => {
     console.log('handleComponentClick', id);
@@ -388,14 +389,18 @@ const handleLoadFromDb = () => {
   const handleAssignSeat = () => {
     if(inputSeatOrientation !== 'whiteBoard' || inputSeatOrientation !== 'door' || inputSeatOrientation !== 'window'){
       const updatedComponents = components.map(component => {
-        console.log('updatedComponents', component.id, selectedComponentId);
+        // console.log('updatedComponents', component.id, selectedComponentId);
+        const selectedTypeId = handleTypeId(inputSeatOrientation);        
         if (component.id === selectedComponentId) {
           return {
             ...component,
             type: inputSeatOrientation,
+            typeId: selectedTypeId,
             status: 1,
           };
         }
+        console.log('updateComponentTypeId:'+selectedTypeId);
+        console.log('updateComponentType:'+inputSeatOrientation);
         return component;
       });
       setComponents(updatedComponents);
@@ -438,6 +443,8 @@ const handleLoadFromDb = () => {
         const updatedDisabledSeats = components.filter(component => component.studentName === "電腦故障");
         // 使用找到的組件更新 disabledSeats 狀態
         setDisabledSeats(updatedDisabledSeats);
+        // const updateSeatType = components.filter(component => component.id === selectedComponentId);
+        // updateSeatType.typeId = updateSeatType.
       }
     }
   }, [selectedComponentId, components]);

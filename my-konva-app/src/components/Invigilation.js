@@ -12,6 +12,8 @@ const SeatChart = () => {
   //對了由於id是設成由2開始的，要進行驗證，如果要開始用的話把id設成1(nextIdRef)
   const [RID, setRID] = useState(0);
   const [status, setStatus] = useState(0);
+  //考生之狀態 -1:電腦故障 0:已填入考生資訊 1:可填入考生資訊 2:已完成考試 3:考試進行中 4:外網連線考生
+  const [inputSeatStatus, setInputSeatStatus] = useState(1);
   const [disabledSeats, setDisabledSeats] = useState([]);
   const [selectedComponentId, setSelectedComponentId] = useState(null);
   const [inputStudentId, setInputStudentId] = useState('');
@@ -227,13 +229,25 @@ const handleLoadFromDb = () => {
   //   }
   // };
   
+  const statusOptions = [
+    {label: '請選擇'},
+    {value: 2, label: '考試未進行'},
+    {value: 3, label: '考試進行中'},
+    {value: 4, label: '電腦發生故障'},
+    {value: 5, label: '外網連線考生'},
+  ];
+
   const handleInputChange = (event) => {
     const { name, value } = event.target;
-    if (name === "classRoomId" && value.trim() === "") {
-      alert("請輸入教室號碼");
-      return; 
-    }
-    if (name === 'studentId') {
+    if (name === "classRoomId") {
+      if (value.trim() === "") {
+        alert("請輸入教室號碼");
+        return;
+      }
+      setRID(value);
+      const newComponents = handleAssignRID(components, value);
+      setComponents(newComponents);
+    } else if (name === 'studentId') {
       setInputStudentId(value);
     } else if (name === 'studentName') {
       setInputStudentName(value);
@@ -247,11 +261,9 @@ const handleLoadFromDb = () => {
       setSeatCount(value);
     } else if (name === 'seatOrientation') {
       setInputSeatOrientation(value);
-    } else if (name === "classRoomId") {
-      setRID(value);
-      const newComponents = handleAssignRID(components, value);
-      setComponents(newComponents);
-    }
+    } else if (name === 'status'){
+      setInputSeatStatus(value);
+    } 
   };
 
   const handleAssignRID = (components, value) => {
@@ -262,15 +274,15 @@ const handleLoadFromDb = () => {
   const handleAssignSeat = () => {
     if(inputSeatOrientation !== 'whiteBoard' || inputSeatOrientation !== 'door' || inputSeatOrientation !== 'window'){
       const updatedComponents = components.map(component => {
-        console.log('updatedComponents', component.id, selectedComponentId);
+        //if ((inputSeatStatus!==2)||(inputSeatStatus!==3)||(inputSeatStatus!==4)||(inputSeatStatus!==5)) inputSeatStatus=1;
         if (component.id === selectedComponentId) {
-          return {
-            ...component,
-            studentId: inputStudentId,
-            studentName: inputStudentName,
-            macAddress: inputMacAddress,
-            status: 1,
-          };
+            return {
+              ...component,
+              studentId: inputStudentId,
+              studentName: inputStudentName,
+              macAddress: inputMacAddress,
+              status: inputSeatStatus
+            };
         }
         return component;
       });
@@ -299,10 +311,11 @@ const handleLoadFromDb = () => {
       }
       return component; // 修正：確保不匹配的組件被正確返回
     });
-    const disabledSeat = updateComponents.find(component => component.studentName === "電腦故障");
+    const disabledSeat = updateComponents.find(component => component .studentName === "電腦故障");
     setDisabledSeats([...disabledSeats, disabledSeat]);
     setComponents(updateComponents);
   };
+
 
   useEffect(() => {
     if(selectedComponentId !== null){
@@ -312,6 +325,7 @@ const handleLoadFromDb = () => {
         setInputStudentName(selectedComponent.studentName);
         setInputMacAddress(selectedComponent.macAddress);
         setInputSeatOrientation(selectedComponent.type);
+        setInputSeatStatus(selectedComponent.status)
         // 遍歷 components 以找出所有 studentName 為 "電腦故障" 的組件
         const updatedDisabledSeats = components.filter(component => component.studentName === "電腦故障");
         // 使用找到的組件更新 disabledSeats 狀態
@@ -322,10 +336,9 @@ const handleLoadFromDb = () => {
       setInputStudentName('');
       setInputMacAddress('');
       setInputSeatOrientation("");
+      setInputSeatStatus("");
     }
   }, [selectedComponentId, components]);
-
-
   const handleMouseMove = (e) => {
   };
 
@@ -340,6 +353,21 @@ const handleLoadFromDb = () => {
       e.preventDefault(); // 阻止 Enter 鍵，不然整個smartSeating會重新整理，ＱＡＱ。
     }
   }
+
+  const getFillColor = (status) => {
+    switch (status) {
+      case 2: return "green";
+      case "2": return "green"
+      case 3: return "grey";
+      case "3": return "grey";
+      case -1: return "yellow";
+      case "-1": return "yellow"
+      case 4: return "red";
+      case "4": return "red";
+      default: return "white";
+    }
+  };
+
   return (
     <div onMouseMove={handleMouseMove} onMouseUp={handleMouseUp}>
       <nav className="navbar fixed-top bg-dark">
@@ -395,12 +423,12 @@ const handleLoadFromDb = () => {
                 >
                   {component.type === 'rightSeat' && (
                     <>
-                      <Rect width={110} height={50} fill="white" stroke="black" strokeWidth={2} />
+                      <Rect width={110} height={50} fill={getFillColor(component.status)}  stroke="black" strokeWidth={2} />
                       <Circle
                         x={135}
                         y={25}
                         radius={25}
-                        fill="white"
+                        fill={getFillColor(component.status)}
                         stroke="black"
                         strokeWidth={2}
                       />
@@ -441,11 +469,11 @@ const handleLoadFromDb = () => {
                         x={25}
                         y={25}
                         radius={25}
-                        fill="white"
+                        fill={getFillColor(component.status)}                        
                         stroke="black"
                         strokeWidth={2}
                       />
-                      <Rect x={50} width={110} height={50} fill="white" stroke="black" strokeWidth={2} />
+                      <Rect x={50} width={110} height={50} fill={getFillColor(component.status)} stroke="black" strokeWidth={2} />
                       <Text
                         text={component.seatId}
                         fontSize={12}
@@ -479,12 +507,12 @@ const handleLoadFromDb = () => {
                   )}
                   {component.type === 'frontSeat' && (
                     <>
-                      <Rect width={110} height={50} fill="white" stroke="black" strokeWidth={2} />
+                      <Rect width={110} height={50} fill={getFillColor(component.status)} stroke="black" strokeWidth={2} />
                       <Circle
                         x={55}
                         y={-25}
                         radius={25}
-                        fill="white"
+                        fill={getFillColor(component.status)}                        
                         stroke="black"
                         strokeWidth={2}
                       />
@@ -521,12 +549,12 @@ const handleLoadFromDb = () => {
                   )}
                   {component.type === 'backSeat' && (
                     <>
-                      <Rect width={110} height={50} fill="white" stroke="black" strokeWidth={2} />
+                      <Rect width={110} height={50} fill={getFillColor(component.status)} stroke="black" strokeWidth={2} />
                       <Circle
                         x={55}
                         y={75}
                         radius={25}
-                        fill="white"
+                        fill={getFillColor(component.status)}                        
                         stroke="black"
                         strokeWidth={2}
                       />
@@ -614,9 +642,6 @@ const handleLoadFromDb = () => {
                     onKeyDown={handleKeyPress}
                   />
                 </form>
-                {/* <button onClick={handleDeleteDataSheet} className="btn btn-primary">
-                   刪除
-                </button> */}
               </div>
               <form> 
               <div>
@@ -652,6 +677,23 @@ const handleLoadFromDb = () => {
                   onChange={handleInputChange}
                 />
               </div>
+              <div>
+                <label>學生狀態</label>
+                  <select
+                    className="form-control"
+                    name="status"
+                    value={inputSeatStatus}
+                    onChange={handleInputChange}
+                  >
+                    <option value="">請選擇</option>
+                    <option value="0">未輸入考生資訊</option>
+                    <option value="1">已輸入考生資訊</option>
+                    <option value="2">考試進行中</option>
+                    <option value="3">考試已結束</option>
+                    <option value="-1">電腦發生故障</option>
+                    <option value="4">外網連線考生</option>
+                  </select>
+              </div>
               <button onClick={handleAssignSeat} className="btn btn-primary">
                 資訊填入
               </button>
@@ -662,9 +704,9 @@ const handleLoadFromDb = () => {
               >
                 刪除
               </button>
-              <button onClick={handleDisableSeat} className="btn btn-primary">
+              {/* <button onClick={handleDisableSeat} className="btn btn-primary">
                 電腦故障
-              </button>
+              </button> */}
               <div>
                 <div>
                   <label>教室寬度:</label>                

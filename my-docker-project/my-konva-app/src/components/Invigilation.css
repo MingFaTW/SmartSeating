@@ -1,0 +1,8 @@
+.input-wrapper{
+    white-space: nowrap; 
+}
+.input-wrapper .form-control {
+    display: inline-block;
+    vertical-align: middle;
+    width: 100px;
+}

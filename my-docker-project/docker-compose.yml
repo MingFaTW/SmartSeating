@@ -1,0 +1,54 @@
+version: '3.8'
+
+services:
+  mysql:
+    image: mysql:5.7
+    container_name: my-mysql-container
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: mydatabase
+      MYSQL_USER: admin
+      MYSQL_PASSWORD: adminpassword
+    volumes:
+      - mysql-data:/var/lib/mysql
+      - ./docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: my-phpmyadmin-container
+    environment:
+      PMA_HOST: mysql
+      PMA_PORT: 3306
+      PMA_USER: admin
+      PMA_PASSWORD: adminpassword
+    ports:
+      - "8081:80"
+    depends_on:
+      - mysql
+
+  apache-php:
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    container_name: my-apache-php-container
+    volumes:
+      - ./public-html:/var/www/html
+    ports:
+      - "8080:80"
+    depends_on:
+      - mysql
+
+  node:
+    image: node:14
+    container_name: my-node-container
+    working_dir: /usr/src/app
+    volumes:
+      - ./my-konva-app:/usr/src/app
+    command: npm start
+    ports:
+      - "3000:3000"
+    depends_on:
+      - mysql
+
+volumes:
+  mysql-data:

@@ -4,23 +4,23 @@ SmartSeating is a project that developing for NPTU online exam platform --- part
 
 Independent project during college～
 
-Developed using React App + Konva.js.
+## Developing languages and environment
 
-Language: React.js/php/SQL/(html css javascript)
+Developed using <strong>React App + Konva.js</strong>
 
-Environment: phpmyadmin/ node.js
+<em>Language:</em> <strong>React.js/php/SQL/(html css javascript)</strong>
+
+<em>Environment</em>: <strong>docker/phpmyadmin/node.js</strong>
 
 Currently under continuous development, please contact me if you need to use it.
 
-Terminal: ```npm run dev``` to start the project.
-
-In the future, i would like to build a docker image for this one, if i still developing it. :)
+Please enter the my-docker-project directory and using ``` docker compose up -d ``` to build up docker compose.
 
 All copyright belongs to @MingFaTW. :)~~~~~(HI)
 
-The pictures for this project functions~
+## Project functions display pictures. XD~
 
-hompage pic
+HomePage
 <img width="1433" alt="截圖 2024-07-18 凌晨1 43 31" src="https://github.com/user-attachments/assets/d0bebaec-0a46-402b-97a0-8ba2a0a1ead3">
 
 SeatChart Mode

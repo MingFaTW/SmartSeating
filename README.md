@@ -16,17 +16,20 @@ Currently under continuous development, please contact me if you need to use it.
 
 Please enter the my-docker-project directory and using ``` docker compose up -d ``` to build up docker compose.
 
+For my school project, I chose to use Chinese for SmartSeating. If anyone needs an English version, I will update it later. : )
+
 All copyright belongs to @MingFaTW. :)~~~~~(HI)
 
 ## Project functions display pictures. XD~
 
-HomePage
+### HomePage
+http://localhost:3000/HomePage
 <img width="1433" alt="截圖 2024-07-18 凌晨1 43 31" src="https://github.com/user-attachments/assets/d0bebaec-0a46-402b-97a0-8ba2a0a1ead3">
 
-SeatChart Mode
-<img width="1440" alt="截圖 2024-07-18 凌晨1 42 47" src="https://github.com/user-attachments/assets/1fcf2416-6988-48ac-9d27-c5a6ae615d72">
+### DesignSeatChart
+<img width="1439" alt="截圖 2024-09-24 上午9 23 22" src="https://github.com/user-attachments/assets/0b1ab026-932a-4388-9d9b-a90640e546b2">
 
-Proctoring Mode.
+### Invigilation Mode
 <img width="1440" alt="截圖 2024-07-22 下午4 24 52" src="https://github.com/user-attachments/assets/1c5890ad-b207-4bbd-838f-b2f64963c80f">
 <img width="1440" alt="截圖 2024-07-22 下午2 31 23" src="https://github.com/user-attachments/assets/79b1b80f-924d-4836-b2ee-21cea5a69f4d">
 

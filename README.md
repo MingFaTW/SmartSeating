@@ -2,7 +2,7 @@
 
 SmartSeating is a project that developing for NPTU online exam platform --- party used, as for designing seating chart and exam proctoring mode.
 
-Independent project during college～
+Independent project during college～ 
 
 ## Developing languages and environment
 
@@ -22,25 +22,35 @@ All copyright belongs to @MingFaTW. :)~~~~~(HI)
 
 ## Project functions display pictures. XD~
 
+### Docker port
+<img width="1204" alt="截圖 2024-09-24 上午9 19 43" src="https://github.com/user-attachments/assets/0146862a-18c2-4f5c-a669-9217c0680609">
+
+Basic Documents placement -> <br>
+node.js: react+konva (frontend) <br>
+apache: php (backend)
+
+                         
 ### HomePage
 http://localhost:3000/HomePage
 <img width="1433" alt="截圖 2024-07-18 凌晨1 43 31" src="https://github.com/user-attachments/assets/d0bebaec-0a46-402b-97a0-8ba2a0a1ead3">
 
-### DesignSeatChart
+### DesignSeatChart Mode
+http://localhost:3000/DesignSeatChart
 <img width="1439" alt="截圖 2024-09-24 上午9 23 22" src="https://github.com/user-attachments/assets/0b1ab026-932a-4388-9d9b-a90640e546b2">
 
 ### Invigilation Mode
-<img width="1440" alt="截圖 2024-07-22 下午4 24 52" src="https://github.com/user-attachments/assets/1c5890ad-b207-4bbd-838f-b2f64963c80f">
-<img width="1440" alt="截圖 2024-07-22 下午2 31 23" src="https://github.com/user-attachments/assets/79b1b80f-924d-4836-b2ee-21cea5a69f4d">
+http://localhost:3000/Invigilation
+<img width="1204" alt="截圖 2024-09-24 上午9 19 43" src="https://github.com/user-attachments/assets/a2f79c2b-aa09-4f2d-9f1d-558c3e60161d">
+
+### AddSeatInfo Mode
+http://localhost:3000/AddSeatInfo
+<img width="1440" alt="截圖 2024-09-24 上午11 59 27" src="https://github.com/user-attachments/assets/89ef9a19-5d65-4e0c-8aa0-7a45020a3c27">
 
 The picture download by project.
 ![screenshot (14)](https://github.com/user-attachments/assets/fa106420-79e6-4682-be4c-04d493750048)
 
 The saving and loading functional pictures.
-<img width="1436" alt="截圖 2024-07-18 凌晨1 41 47" src="https://github.com/user-attachments/assets/a61da534-1274-4a04-89c9-67d8722e6419">
-<img width="1440" alt="截圖 2024-07-18 凌晨1 47 42" src="https://github.com/user-attachments/assets/862fdd70-2aaa-4176-b335-d248ae477fba">
-<img width="1440" alt="截圖 2024-07-18 凌晨1 59 07" src="https://github.com/user-attachments/assets/9e5d5811-7ba6-418a-b51e-f43288b734ab">
-
-
+<img width="1440" alt="截圖 2024-09-24 中午12 01 08" src="https://github.com/user-attachments/assets/4cf7ecc8-4928-478a-b257-c434a9577983">
+<img width="1440" alt="截圖 2024-09-24 中午12 00 23" src="https://github.com/user-attachments/assets/06e53a31-a021-47ae-b1f0-13ed41d4c7f9">
 
 

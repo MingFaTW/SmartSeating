@@ -55,5 +55,5 @@ The saving and loading functional pictures.
 <img width="1440" alt="截圖 2024-09-24 中午12 00 23" src="https://github.com/user-attachments/assets/06e53a31-a021-47ae-b1f0-13ed41d4c7f9">
 
 phpmyadmin snapshot
-<img width="1123" alt="snapshot4" src="https://github.com/user-attachments/assets/6d7981fb-4225-4d16-9119-f184b324db17">
+<img width="1440" alt="截圖 2024-09-24 晚上9 27 56" src="https://github.com/user-attachments/assets/61fb5f85-c011-4580-afe0-fca26942f170">
 

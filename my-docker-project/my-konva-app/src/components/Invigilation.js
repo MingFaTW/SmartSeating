@@ -14,7 +14,7 @@ const SeatChart = () => {
   const [RID, setRID] = useState(0);
   const [status, setStatus] = useState(0);
   //考生之狀態 -1:電腦故障 0:已填入考生資訊 1:可填入考生資訊 2:已完成考試 3:考試進行中 4:外網連線考生
-  const [inputSeatStatus, setInputSeatStatus] = useState(1);
+  const [inputSeatStatus, setInputSeatStatus] = useState("");
   const [usedSeatNum, setUsedSeatNum] = useState(0);
   const [disabledSeats, setDisabledSeats] = useState([]);
   const [selectedComponentId, setSelectedComponentId] = useState(null);
@@ -34,7 +34,6 @@ const SeatChart = () => {
   const nextIdRef = useRef(1); //useRef是React的Hook，用於在React組件的整個生命週期中保存數值。
   const newIdRef = useRef(null);
   const transformerRef = useRef(null);
-  const [continuousAddSeat, setcontinuousAddSeat] = useState("inactive");
   const [testStatus_starting ,setTestStatus_starting] = useState(0);
   const [testStatus_absent, setTestStatus_absent] = useState(0);
   const [testStatus_finished, setTestStatus_finished] = useState(0);
@@ -265,7 +264,6 @@ const handleLoadFromDb = () => {
   const handleAssignSeat = () => {
     if(inputSeatOrientation !== 'whiteBoard' || inputSeatOrientation !== 'door' || inputSeatOrientation !== 'window'){
       const updatedComponents = components.map(component => {
-        //if ((inputSeatStatus!==2)||(inputSeatStatus!==3)||(inputSeatStatus!==4)||(inputSeatStatus!==5)) inputSeatStatus=1;
         if (component.componentId === selectedComponentId) {
             return {
               ...component,
@@ -316,7 +314,7 @@ const handleLoadFromDb = () => {
         setInputStudentName(selectedComponent.studentName);
         setInputMacAddress(selectedComponent.macAddress);
         setInputSeatOrientation(selectedComponent.type);
-        setInputSeatStatus(selectedComponent.status)
+        setInputSeatStatus(selectedComponent.status);
         setInputExchangeSeat2("");
         // 遍歷 components 以找出所有 studentName 為 "電腦故障" 的組件
         const updatedDisabledSeats = components.filter(component => component.studentName === "電腦故障");
@@ -357,6 +355,8 @@ const handleLoadFromDb = () => {
         case "缺考":
             return "red";
         case "未開始":
+        case "":
+        case null:
             return "white";
      }
     }else{
@@ -443,11 +443,12 @@ const handleLoadFromDb = () => {
                   id={component.componentId}
                   x={component.x}
                   y={component.y}
-                  onClick={(e) => handleComponentClick(e, component.componentId)}
+                  onClick={(e) => {
+                    handleComponentClick(e, component.componentId);
+                  }}
                 >
                   {component.type === 'rightSeat' && (
                     <>
-                      <Rect width={110} height={50} fill={getFillColor(component.status)} stroke="black" strokeWidth={2} />
                       <Circle
                         x={135}
                         y={25}
@@ -456,6 +457,7 @@ const handleLoadFromDb = () => {
                         stroke="black"
                         strokeWidth={2}
                       />
+                      <Rect width={110} height={50} fill={getFillColor(component.status)} stroke="black" strokeWidth={2} />
                       <Rect x={150} y={0} width={10} height={50} fill={getFillColor(component.status)} stroke="black" strokeWidth={2} />
                       <Text
                         text={component.seatId}
@@ -479,13 +481,6 @@ const handleLoadFromDb = () => {
                         x={20}
                         y={25}
                       />
-                      <Text
-                        text={component.macAddress}
-                        fontSize={12}
-                        fill="black"
-                        x={0}
-                        y={35}
-                      />
                     </>
                   )}
                   {component.type === 'leftSeat' && (
@@ -497,6 +492,7 @@ const handleLoadFromDb = () => {
                         fill={getFillColor(component.status)}
                         stroke="black"
                         strokeWidth={2}
+                        z-index={1}
                       />
                       <Rect x={50} width={110} height={50} fill={getFillColor(component.status)} stroke="black" strokeWidth={2} />
                       <Rect x={0} y={0} width={10} height={50} fill={getFillColor(component.status)} stroke="black" strokeWidth={2} />
@@ -521,13 +517,6 @@ const handleLoadFromDb = () => {
                         fill="black"
                         x={75}
                         y={25}
-                      />
-                      <Text
-                        text={component.macAddress}
-                        fontSize={12}
-                        fill="black"
-                        x={50}
-                        y={35}
                       />
                     </>
                   )}
@@ -565,13 +554,6 @@ const handleLoadFromDb = () => {
                         x={25}
                         y={20}
                       />
-                      <Text
-                        text={component.macAddress}
-                        fontSize={12}
-                        fill="black"
-                        x={0}
-                        y={30}
-                      />
                     </>
                   )}
                   {component.type === 'backSeat' && (
@@ -607,13 +589,6 @@ const handleLoadFromDb = () => {
                         fill="black"
                         x={25}
                         y={20}
-                      />
-                      <Text
-                        text={component.macAddress}
-                        fontSize={12}
-                        fill="black"
-                        x={0}
-                        y={30}
                       />
                     </>
                   )}
@@ -704,6 +679,7 @@ const handleLoadFromDb = () => {
                     name="status"
                     value={inputSeatStatus}
                     onChange={handleInputChange}
+                    disabled
                   >
                   <option value="">請選擇</option>
                   <option value="缺考">缺考</option>
@@ -721,9 +697,6 @@ const handleLoadFromDb = () => {
                       <input type="number" id="exchangeSeat2" name="exchangeSeat2" class="form-control seat" value={inputExchangeSeat2} onChange={handleInputChange}/>
                   </div>
                   <button id="exchangeSeat" name="exchangeSeat" class="btn btn-primary" onClick={handleExchangeSeat}>調換座位</button>
-              {/* <button onClick={handleDisableSeat} className="btn btn-primary">
-                電腦故障
-              </button> */}
               <hr/>
               <h5>考試狀態</h5>
             <div style={{ display: "inline-block" }}>

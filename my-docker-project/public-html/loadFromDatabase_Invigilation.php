@@ -21,6 +21,7 @@ mysqli_set_charset($conn1, "utf8mb4");
 
 // Check if ClassRoomID is set in POST request
 $ClassRoomID = isset($_POST['RID']) ? $_POST['RID'] : '';
+// $ClassRoomID = 123;
 $ClassRoomID = $conn1->real_escape_string($ClassRoomID);  // Escaping input
 // Prepare the SQL statement
 $sql = "
@@ -28,6 +29,7 @@ $sql = "
         ClassRoomComponents.*,
         ClassRoomComponentType.Type,
         ExamArrangedSeats.StudentID,
+        ExamArrangedSeats.StudentName,
         ExamStuStatus.status
     FROM ClassRoomComponents 
     LEFT JOIN ClassRoomSeats
@@ -39,8 +41,7 @@ $sql = "
         ON ClassRoomSeats.ClassRoomID = ExamArrangedSeats.ClassRoomID
         AND ClassRoomComponents.SeatID = ExamArrangedSeats.SeatID
     LEFT JOIN ExamStuStatus
-        ON ExamStuStatus.EID = ExamArrangedSeats.EID
-        AND ExamStuStatus.StudentID = ExamArrangedSeats.StudentID
+        ON ExamStuStatus.StudentID = ExamArrangedSeats.StudentID
     WHERE ClassRoomComponents.ClassRoomID = ?
 ";
 
@@ -67,7 +68,7 @@ if ($stmt1 = $conn1->prepare($sql)) {
                 'status' => (string)$row['status'],
                 'type' => $row['Type'],
                 'studentId' => $row['StudentID'] ?? "",
-                'studentName' => ""
+                'studentName' => $row['StudentName'] ?? ""
             ];
         }
     }

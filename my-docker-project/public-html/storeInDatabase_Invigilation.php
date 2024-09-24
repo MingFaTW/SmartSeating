@@ -36,7 +36,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $stmt = $conn->prepare("INSERT INTO ClassRoomComponents (ComponentID, ClassRoomID, TypeID, x, y, SeatID, MacAddress)
                                     VALUES (?, ?, ?, ?, ?, ?, ?)
                                     ON DUPLICATE KEY UPDATE
-                                    ClassRoomID = VALUES(ClassRoomID), TypeID = VALUES(TypeID), x = VALUES(x), y = VALUES(y), SeatID = VALUES(SeatID), MacAddress = VALUES(MacAddress)");
+                                    TypeID = VALUES(TypeID), x = VALUES(x), y = VALUES(y), SeatID = VALUES(SeatID), MacAddress = VALUES(MacAddress)");
             if ($stmt === false) {
                 die("prepare() failed: " . htmlspecialchars($conn->error));
             }
@@ -45,38 +45,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 die("execute() failed: " . htmlspecialchars($stmt->error));
             }
             $stmt->close();
-
-        if (isset($data['Width']) && isset($data['Height']) && isset($data['seatNum'])) {
-            $Name = "";
-            $Width = $data['Width'];
-            $Height = $data['Height'];
-            $SeatNum = $data['seatNum'];
-            $stmt = $conn->prepare("INSERT INTO ClassRoom (ClassRoomID, SeatNum, Name, Width, Height)
-                                    VALUES (?, ?, ?, ?, ?)
-                                    ON DUPLICATE KEY UPDATE
-                                    SeatNum = VALUES(SeatNum), Name = VALUES(Name), Width = VALUES(Width), Height = VALUES(Height)");
-            if ($stmt === false) {
-                die("prepare() failed: " . htmlspecialchars($conn->error));
-            }
-            $stmt->bind_param("iisii", $ClassRoomID, $SeatNum, $Name, $Width, $Height);
-            if (!$stmt->execute()) {
-                die("execute() failed: " . htmlspecialchars($stmt->error));
-            }
-            $stmt->close();
-        }
-
         if(($TypeID===1)||($TypeID===2)||($TypeID===3)||($TypeID===4)){
-            $stmt = $conn->prepare("INSERT INTO ExamArrangeSeats (EID, ClassRoomID ,SeatID ,COID ,StudentID, StudentName)
+            $stmt = $conn->prepare("INSERT INTO ExamArrangedSeats (EID, ClassRoomID ,SeatID ,COID ,StudentID, StudentName)
                                     VALUES (?, ? ,?, ?, ?, ?)
                                     ON DUPLICATE KEY UPDATE
-                                    EID = VALUE(EID), ClassRoomID = VALUES(ClassRoomID), SeatID = VALUES(SeatID), COID = VALUES(COID), StudentID = VALUES(StudentID), StudentName = VALUES(StudentName)");
+                                    EID = VALUES(EID), COID = VALUES(COID), StudentID = VALUES(StudentID), StudentName = VALUES(StudentName)");
             if ($stmt === false) {
                 die("prepare() failed: " . htmlspecialchars($conn->error));
             }
             if ($stmt === false) {
                 die("prepare() failed: " . htmlspecialchars($conn->error));
             }
-            $stmt->bind_param("isss",$ClassRoomID,$SeatID,$StudentID,$StudentName);
+            $stmt->bind_param("iiiiss",$EID, $ClassRoomID, $SeatID, $COID, $StudentID, $StudentName);
             if (!$stmt->execute()) {
                 die("execute() failed: " . htmlspecialchars($stmt->error));
             }

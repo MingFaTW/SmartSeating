@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.0
+-- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- 主機： localhost
--- 產生時間： 2024 年 09 月 03 日 11:44
--- 伺服器版本： 10.6.18-MariaDB-0ubuntu0.22.04.1
--- PHP 版本： 8.1.2-1ubuntu2.18
+-- 主機： mysql:3306
+-- 產生時間： 2024 年 09 月 24 日 03:42
+-- 伺服器版本： 5.7.44
+-- PHP 版本： 8.2.8
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- 資料庫： `SE_111_1`
+-- 資料庫： `mydatabase`
 --
 
 -- --------------------------------------------------------
@@ -30,7 +30,7 @@ SET time_zone = "+00:00";
 CREATE TABLE `Classes` (
   `CLID` int(5) NOT NULL COMMENT '班級ID',
   `name` varchar(20) NOT NULL COMMENT '班級名稱'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- 傾印資料表的資料 `Classes`
@@ -53,15 +53,13 @@ CREATE TABLE `ClassRoom` (
   `Width` int(11) NOT NULL,
   `Height` int(11) NOT NULL,
   `token` varchar(255) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- 傾印資料表的資料 `ClassRoom`
 --
 
 INSERT INTO `ClassRoom` (`ClassRoomID`, `Name`, `SeatNum`, `disabledSeats`, `Width`, `Height`, `token`) VALUES
-(123, 'test', 8, 0, 1200, 800, 'mattew'),
-(124, 'test1', 1, 0, 1000, 1200, NULL),
 (903, '圖資大樓0903', 60, 0, 1200, 800, NULL),
 (907, '圖資大樓0907', 60, 0, 1200, 800, NULL),
 (1004, '圖資大樓1004', 60, 0, 1200, 800, NULL),
@@ -81,29 +79,29 @@ CREATE TABLE `ClassRoomComponents` (
   `y` int(11) NOT NULL,
   `SeatID` varchar(255) DEFAULT NULL,
   `MacAddress` varchar(255) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- 傾印資料表的資料 `ClassRoomComponents`
 --
 
 INSERT INTO `ClassRoomComponents` (`ComponentID`, `ClassRoomID`, `TypeID`, `x`, `y`, `SeatID`, `MacAddress`) VALUES
-(1, 123, 1, 163, 132, '1', ''),
-(1, 124, 1, 100, 100, '1', ''),
-(2, 123, 1, 163, 182, '2', '1A-2B-3C-4D-5E-6F'),
-(3, 123, 1, 163, 231, '3', ''),
-(4, 123, 4, 214, 281, '4', ''),
-(5, 123, 2, 323, 132, '5', ''),
-(6, 123, 2, 323, 182, '6', ''),
-(7, 123, 2, 323, 231, '7', ''),
-(8, 123, 4, 323, 281, '8', ''),
-(9, 123, 6, 508, 42, '0', ''),
-(10, 123, 6, 509, 405, '0', ''),
-(11, 123, 5, 232, 48, '0', ''),
-(12, 123, 7, 509, 253, '0', ''),
-(13, 123, 7, 30, 59, '0', ''),
-(14, 123, 7, 30, 215, '0', ''),
-(15, 123, 7, 32, 374, '0', '');
+(1, 123, 1, 307, 217, '1', ''),
+(2, 123, 1, 307, 317, '3', ''),
+(3, 123, 1, 307, 267, '2', ''),
+(4, 123, 2, 468, 218, '4', '1A-2B-3C-4D-5E-6F'),
+(5, 123, 2, 468, 268, '5', '1A-2B-3C-4D-5E-6F'),
+(6, 123, 4, 467, 368, '8', ''),
+(7, 123, 2, 468, 318, '6', ''),
+(8, 123, 4, 357, 368, '7', ''),
+(9, 123, 5, 376, 107, '0', ''),
+(10, 123, 3, 717, 278, '9', ''),
+(11, 123, 3, 828, 278, '10', ''),
+(12, 123, 4, 717, 329, '11', ''),
+(13, 123, 4, 827, 329, '12', ''),
+(14, 123, 6, 138, 116, '0', ''),
+(15, 123, 6, 135, 375, '0', ''),
+(16, 123, 7, 136, 268, '0', '');
 
 -- --------------------------------------------------------
 
@@ -113,8 +111,8 @@ INSERT INTO `ClassRoomComponents` (`ComponentID`, `ClassRoomID`, `TypeID`, `x`, 
 
 CREATE TABLE `ClassRoomComponentType` (
   `TypeID` int(11) NOT NULL,
-  `Type` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+  `Type` varchar(255) CHARACTER SET utf8mb4 NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- 傾印資料表的資料 `ClassRoomComponentType`
@@ -138,31 +136,26 @@ INSERT INTO `ClassRoomComponentType` (`TypeID`, `Type`) VALUES
 CREATE TABLE `ClassRoomSeats` (
   `ClassRoomID` int(11) NOT NULL,
   `SeatID` int(11) NOT NULL,
-  `ComponentID` int(11) NOT NULL,
   `Status` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- 傾印資料表的資料 `ClassRoomSeats`
 --
 
-INSERT INTO `ClassRoomSeats` (`ClassRoomID`, `SeatID`, `ComponentID`, `Status`) VALUES
-(123, 1, 1, '1'),
-(123, 2, 2, '1'),
-(123, 3, 3, '2'),
-(123, 4, 4, '3'),
-(123, 5, 5, '4'),
-(123, 6, 6, '1'),
-(123, 7, 7, '1'),
-(123, 8, 8, '1'),
-(123, 0, 9, '0'),
-(123, 0, 10, '0'),
-(123, 0, 11, '0'),
-(123, 0, 12, '0'),
-(123, 0, 13, '0'),
-(123, 0, 14, '0'),
-(123, 0, 15, '0'),
-(124, 1, 1, '1');
+INSERT INTO `ClassRoomSeats` (`ClassRoomID`, `SeatID`, `Status`) VALUES
+(123, 1, '0'),
+(123, 2, '0'),
+(123, 3, '0'),
+(123, 4, '0'),
+(123, 5, '0'),
+(123, 6, '0'),
+(123, 7, '1'),
+(123, 8, '1'),
+(123, 9, '0'),
+(123, 10, '0'),
+(123, 11, '0'),
+(123, 12, '0');
 
 -- --------------------------------------------------------
 
@@ -175,28 +168,33 @@ CREATE TABLE `ExamArrangedSeats` (
   `ClassRoomID` int(11) NOT NULL,
   `SeatID` int(11) NOT NULL,
   `COID` int(11) NOT NULL,
-  `username` varchar(15) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+  `StudentID` varchar(255) CHARACTER SET utf8mb4 NOT NULL,
+  `StudentName` varchar(255) CHARACTER SET utf8mb4 NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- 傾印資料表的資料 `ExamArrangedSeats`
 --
 
-INSERT INTO `ExamArrangedSeats` (`EID`, `ClassRoomID`, `SeatID`, `COID`, `username`) VALUES
-(219, 9000, 4, 21, 'stu01'),
-(219, 9001, 2, 21, 'stu02'),
-(219, 9001, 4, 21, 'stu03'),
-(219, 9000, 3, 21, 'stu04'),
-(219, 9002, 4, 21, 'stu05'),
-(1, 123, 1, 1, ''),
-(1, 123, 2, 1, 'CBB110004'),
-(1, 123, 3, 1, 'CBB110003'),
-(1, 123, 4, 1, 'CBB110001'),
-(1, 123, 5, 1, ''),
-(1, 123, 6, 1, ''),
-(1, 123, 7, 1, 'CBB110002'),
-(1, 123, 8, 1, ''),
-(1, 124, 1, 1, 'CBB110005');
+INSERT INTO `ExamArrangedSeats` (`EID`, `ClassRoomID`, `SeatID`, `COID`, `StudentID`, `StudentName`) VALUES
+(1, 123, 1, 1, 'CBB110004', '月夜'),
+(1, 123, 2, 1, 'CBB110003', '張菲'),
+(1, 123, 3, 1, 'CBB110002', '李大鳴'),
+(1, 123, 4, 1, '', ''),
+(1, 123, 5, 1, '', ''),
+(1, 123, 6, 1, 'CBB110001', '王大華'),
+(1, 123, 7, 1, '', ''),
+(1, 123, 8, 1, 'CBB110213', '李明發'),
+(1, 123, 9, 1, 'CBB110005', '張可涵'),
+(1, 123, 10, 1, '', ''),
+(1, 123, 11, 1, '', ''),
+(1, 123, 12, 1, '', ''),
+(1, 124, 1, 1, 'CBB110005', ''),
+(219, 9000, 3, 21, 'stu04', ''),
+(219, 9000, 4, 21, 'stu01', ''),
+(219, 9001, 2, 21, 'stu02', ''),
+(219, 9001, 4, 21, 'stu03', ''),
+(219, 9002, 4, 21, 'stu05', '');
 
 -- --------------------------------------------------------
 
@@ -207,8 +205,8 @@ INSERT INTO `ExamArrangedSeats` (`EID`, `ClassRoomID`, `SeatID`, `COID`, `userna
 CREATE TABLE `ExamSeats` (
   `SiteID` int(11) NOT NULL,
   `SeatID` int(11) NOT NULL,
-  `MacAddress` varchar(64) CHARACTER SET ascii COLLATE ascii_general_ci NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+  `MacAddress` varchar(64) CHARACTER SET ascii NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- 傾印資料表的資料 `ExamSeats`
@@ -235,9 +233,9 @@ INSERT INTO `ExamSeats` (`SiteID`, `SeatID`, `MacAddress`) VALUES
 
 CREATE TABLE `ExamSites` (
   `SiteID` int(11) NOT NULL,
-  `Name` varchar(64) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
+  `Name` varchar(64) CHARACTER SET utf8 NOT NULL,
   `Vacancies` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- 傾印資料表的資料 `ExamSites`
@@ -256,8 +254,8 @@ INSERT INTO `ExamSites` (`SiteID`, `Name`, `Vacancies`) VALUES
 
 CREATE TABLE `ExamStatus` (
   `EID` int(11) NOT NULL COMMENT '測驗ID',
-  `isCorrecting` tinyint(4) NOT NULL DEFAULT 0 COMMENT '是否被伺服器自動批改過(0還沒，1已批改)'
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci COMMENT='測驗的狀態，用來判斷系統是否有自動批改過此測驗';
+  `isCorrecting` tinyint(4) NOT NULL DEFAULT '0' COMMENT '是否被伺服器自動批改過(0還沒，1已批改)'
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='測驗的狀態，用來判斷系統是否有自動批改過此測驗';
 
 --
 -- 傾印資料表的資料 `ExamStatus`
@@ -277,19 +275,19 @@ INSERT INTO `ExamStatus` (`EID`, `isCorrecting`) VALUES
 
 CREATE TABLE `ExamStuStatus` (
   `EID` int(11) NOT NULL COMMENT '測驗ID',
-  `username` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '學生帳號名稱',
-  `status` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '狀態(未開始、進行中、結束、缺考)'
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci COMMENT='學生測驗的狀態(未開始、進行中、結束、缺考)';
+  `StudentID` varchar(255) CHARACTER SET utf8mb4 NOT NULL COMMENT '學生帳號名稱',
+  `status` varchar(20) CHARACTER SET utf8mb4 NOT NULL COMMENT '狀態(未開始、進行中、結束、缺考)'
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='學生測驗的狀態(未開始、進行中、結束、缺考)';
 
 --
 -- 傾印資料表的資料 `ExamStuStatus`
 --
 
-INSERT INTO `ExamStuStatus` (`EID`, `username`, `status`) VALUES
+INSERT INTO `ExamStuStatus` (`EID`, `StudentID`, `status`) VALUES
 (1, 'CBB110001', '進行中'),
 (1, 'CBB110002', '缺考'),
 (1, 'CBB110003', '結束'),
-(1, 'cbb110004', '未開始'),
+(1, 'CBB110004', '未開始'),
 (1, 'CBB110005', '進行中'),
 (108, 'stu01', '缺考'),
 (108, 'stu02', '缺考'),
@@ -345,7 +343,13 @@ ALTER TABLE `ClassRoomComponentType`
 -- 資料表索引 `ClassRoomSeats`
 --
 ALTER TABLE `ClassRoomSeats`
-  ADD PRIMARY KEY (`ClassRoomID`,`ComponentID`);
+  ADD PRIMARY KEY (`ClassRoomID`,`SeatID`);
+
+--
+-- 資料表索引 `ExamArrangedSeats`
+--
+ALTER TABLE `ExamArrangedSeats`
+  ADD PRIMARY KEY (`ClassRoomID`,`SeatID`);
 
 --
 -- 資料表索引 `ExamSites`
@@ -363,7 +367,7 @@ ALTER TABLE `ExamStatus`
 -- 資料表索引 `ExamStuStatus`
 --
 ALTER TABLE `ExamStuStatus`
-  ADD PRIMARY KEY (`EID`,`username`);
+  ADD PRIMARY KEY (`EID`,`StudentID`);
 
 --
 -- 在傾印的資料表使用自動遞增(AUTO_INCREMENT)
@@ -373,13 +377,13 @@ ALTER TABLE `ExamStuStatus`
 -- 使用資料表自動遞增(AUTO_INCREMENT) `Classes`
 --
 ALTER TABLE `Classes`
-  MODIFY `CLID` int(5) NOT NULL AUTO_INCREMENT COMMENT '班級ID', AUTO_INCREMENT=12;
+  MODIFY `CLID` int(5) NOT NULL AUTO_INCREMENT COMMENT '班級ID', AUTO_INCREMENT=9;
 
 --
 -- 使用資料表自動遞增(AUTO_INCREMENT) `ClassRoom`
 --
 ALTER TABLE `ClassRoom`
-  MODIFY `ClassRoomID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3501;
+  MODIFY `ClassRoomID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1009;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

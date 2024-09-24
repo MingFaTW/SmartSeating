@@ -29,6 +29,7 @@ Basic Documents placement -> <br>
 node.js: react+konva (frontend) <br>
 apache: php (backend)
 
+<em> The Example ClassRoomNumber is 123. </em>
                          
 ### HomePage
 http://localhost:3000/HomePage
@@ -40,7 +41,7 @@ http://localhost:3000/DesignSeatChart
 
 ### Invigilation Mode
 http://localhost:3000/Invigilation
-<img width="1204" alt="截圖 2024-09-24 上午9 19 43" src="https://github.com/user-attachments/assets/a2f79c2b-aa09-4f2d-9f1d-558c3e60161d">
+<img width="1440" alt="截圖 2024-09-24 上午11 58 13" src="https://github.com/user-attachments/assets/25b246ff-d6b6-4296-a632-26d4baaf0308">
 
 ### AddSeatInfo Mode
 http://localhost:3000/AddSeatInfo

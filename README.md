@@ -4,6 +4,8 @@ SmartSeating is a project that developing for NPTU online exam platform --- part
 
 Independent project during college～ 
 
+If you think my project is helpful, please press a star to encourage my development. :) happy~
+
 ## Developing languages and environment
 
 Developed using <strong>React App + Konva.js</strong>

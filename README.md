@@ -1,6 +1,6 @@
 # SmartSeating
 
-SmartSeating is a project that developing for NPTU online exam platform --- party used, as for designing seating chart and exam proctoring mode.
+SmartSeating is a project that developing for NPTU online exam platform ---  [PARTY](<https://party.nptu.edu.tw/>) used, as for designing seating chart and exam proctoring mode.
 
 Independent project during college～ 
 

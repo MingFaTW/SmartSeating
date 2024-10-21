@@ -332,12 +332,6 @@ const handleLoadFromDb = () => {
             throw new Error(`Network response was not ok, status: ${response.status}`);
           }
 
-          // // Check if response is JSON
-          // const contentType = response.headers.get('Content-Type');
-          // if (!contentType || !contentType.includes('application/json')) {
-          //   throw new Error('Received non-JSON response');
-          // }
-
           const data = await response.json();
           console.log("This is data: ");
           console.log(data);

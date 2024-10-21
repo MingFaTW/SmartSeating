@@ -171,17 +171,20 @@ const handleLoadFromDb = () => {
           console.log(data);
           let newNextSeatId = 0;
           let newId = 0;
+          let tempSeatCount = 0;
           for(let i=0; i<data.length; i++){
             if(newNextSeatId<data[i]["seatId"])
               newNextSeatId = data[i]["seatId"];
             if(newId<data[i]["componentId"])
               newId = data[i]["componentId"];
+            if(tempSeatCount<parseInt(data[i]["seatId"]))
+              tempSeatCount = parseInt(data[i]["seatId"]);
             console.log("data back to front:"+data[i]["seatId"]);
           }
+          setSeatCount(tempSeatCount);
           setComponents(data);
           nextIdRef.current = parseInt(newId)+1;
           nextSeatIdRef.current = parseInt(newNextSeatId)+1;
-          
         } catch (error) {
           console.error("Error fetching data from db:", error);
           Swal.fire({
@@ -231,7 +234,6 @@ const handleLoadFromDb = () => {
   const handleAssignSeat = () => {
     if(inputSeatOrientation !== 'whiteBoard' || inputSeatOrientation !== 'door' || inputSeatOrientation !== 'window'){
       const updatedComponents = components.map(component => {
-        //if ((inputSeatStatus!==2)||(inputSeatStatus!==3)||(inputSeatStatus!==4)||(inputSeatStatus!==5)) inputSeatStatus=1;
         if (component.componentId === selectedComponentId) {
             return {
               ...component,
@@ -296,9 +298,13 @@ const handleLoadFromDb = () => {
       setInputSeatStatus("");
     }
     let tempUsedSeatNum = 0;
+    let tempSeatCount = 0;
     components.forEach(component => {
         if((component.studentId !== "")&&(component.studentId !== null)){
           tempUsedSeatNum++;
+        }
+        if(parseInt(component.seatId)>tempSeatCount){
+          tempSeatCount = parseInt(component.seatId);
         }
     });
     setUsedSeatNum(tempUsedSeatNum);
@@ -342,7 +348,8 @@ const handleLoadFromDb = () => {
     <div onMouseMove={handleMouseMove} onMouseUp={handleMouseUp}>
       <nav className="navbar fixed-top bg-dark">
         <div className="container-fluid">
-        <Link to="/HomePage" className="navbar-brand text-light">SmartSeating 座位管理系统</Link>          <ul className="navbar-nav d-flex flex-row align-items-center">
+        <Link to="/HomePage" className="navbar-brand text-light">SmartSeating 座位管理系统</Link>          
+        <ul className="navbar-nav d-flex flex-row align-items-center">
             <li className="nav-item">
               <button onClick={handleExportImg} className="btn btn-dark">
                 <i className="bi bi-image"></i>
@@ -620,7 +627,7 @@ const handleLoadFromDb = () => {
               </div>
               <form> 
               <div>
-              <label>可用座位/座位總數 : {(nextSeatIdRef.current-1)-(usedSeatNum)}/{(nextSeatIdRef.current-1)}</label>
+              <label>可用座位/座位總數 : {(seatCount)-(usedSeatNum)}/{(seatCount)}</label>
               </div>
               <hr/>
               </form>

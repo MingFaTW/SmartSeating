@@ -647,9 +647,6 @@ const handleLoadFromDb = () => {
                   />
                 </form>
               </div>
-              <div>
-                <label>可用座位/座位總數 : {(nextSeatIdRef.current-1)-(usedSeatNum)}/{(nextSeatIdRef.current-1)}</label>
-              </div>
               <hr/>
                 <label>學生學號</label>
                 <input

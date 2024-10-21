@@ -2,7 +2,7 @@
 
 [SmartSeating學校基本簡報](<https://github.com/MingFaTW/SmartSeating/blob/main/documentsForSchool/SmartSeating_presentation.pdf/>)
 
-SmartSeating is a project that developing for NPTU online exam platform ---  [PARTY](<https://party.nptu.edu.tw/>) used, as for designing seating chart and exam proctoring mode.
+SmartSeating is orginally a school project that developing for NPTU online exam platform ---  [PARTY](<https://party.nptu.edu.tw/>) used, as for designing seating chart and exam proctoring mode. As for the environment consideration, i swtich to use the pure javascript on my school project. This React.js version will be my side project.
 
 Independent project during college～ 
 

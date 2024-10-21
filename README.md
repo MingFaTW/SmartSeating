@@ -47,11 +47,11 @@ http://localhost:3000/DesignSeatChart
 
 ### Invigilation Mode
 http://localhost:3000/Invigilation
-<img width="1440" alt="截圖 2024-09-24 上午11 58 13" src="https://github.com/user-attachments/assets/25b246ff-d6b6-4296-a632-26d4baaf0308">
+<img width="1440" alt="截圖 2024-10-21 晚上10 57 25" src="https://github.com/user-attachments/assets/326cd7fd-1057-4eee-b83f-95a0559f3ad6">
 
 ### AddSeatInfo Mode
 http://localhost:3000/AddSeatInfo
-<img width="1440" alt="截圖 2024-09-24 上午11 59 27" src="https://github.com/user-attachments/assets/89ef9a19-5d65-4e0c-8aa0-7a45020a3c27">
+<img width="1440" alt="截圖 2024-10-21 晚上10 57 08" src="https://github.com/user-attachments/assets/a5cd83d7-4340-4039-8a6b-cc3707f5cf15">
 
 The picture download by project.
 ![screenshot (14)](https://github.com/user-attachments/assets/fa106420-79e6-4682-be4c-04d493750048)

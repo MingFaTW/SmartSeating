@@ -24,8 +24,6 @@ Please enter the my-docker-project directory and using ``` docker compose up -d 
 
 For my school project, I chose to use Chinese for SmartSeating. If anyone needs an English version, I will update it later. : )
 
-All copyright belongs to @MingFaTW. :)~~~~~(HI)
-
 ## Project functions display pictures. XD~
 
 ### Docker port
